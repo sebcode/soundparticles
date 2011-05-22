@@ -1,0 +1,22 @@
+Proof of concept of how to visualize EQ spectrum data of audio data
+with particles by using HTML5 canvas and SoundManager2.
+
+SoundManager2 is a cross-platform audio API for web browsers.
+http://www.schillmania.com/projects/soundmanager2/
+
+The particle engine is borrowed from my browser game prototype4.
+http://p4.baunz.net/
+
+demo.mp3 contains a part of the song Now Get Busy from the Beastie Boys.
+The song is licensed under the Creative Commons Noncommercial Sampling
+Plus license, allowing noncommercial file-sharing and noncommercial
+sampling. More info: http://en.wikipedia.org/wiki/Now_Get_Busy
+Download full song here: http://www.ccc-r.de/boycott/
+
+
+Instructions:
+
+* Copy this directory to your web server
+* Execute bootstrap.sh to clone SoundManager2
+* Browse to index.html
+

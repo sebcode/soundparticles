@@ -1,0 +1,72 @@
+<!doctype html>
+<title>soundmanager2 circles demo</title>
+<link rel="stylesheet" href="s.css"/>
+
+<!--<script src="SoundManager2/script/soundmanager2.js"></script>-->
+<script src="SoundManager2/script/soundmanager2-nodebug-jsmin.js"></script>
+
+<canvas id="canvas" width="800" height="300"></canvas>
+
+<script>
+
+var canvas = document.getElementById('canvas')
+	,ctx = canvas.getContext('2d')
+	,w = canvas.width
+	,h = canvas.height
+	,x = w / 2
+	,y = h / 2
+	,sound
+
+function draw()
+{
+	ctx.fillStyle = "black"
+	ctx.fillRect(0, 0, w, h)
+	
+	ctx.fillStyle = "white"
+
+	for (var i = 0; i < 256; i += 1) {
+		ctx.beginPath()
+		x = (w / 2) + i
+		y = h / 2
+		ctx.arc(x, y, 150 * sound.eqData.left[i], Math.PI * 2, 0, true)
+		ctx.fill()
+		ctx.closePath()
+	}
+	
+	for (var i = 256; i > 0; i -= 1) {
+		ctx.beginPath()
+		x = (w / 2) - i
+		y = h / 2
+		ctx.arc(x, y, 150 * sound.eqData.right[i], Math.PI * 2, 0, true)
+		ctx.fill()
+		ctx.closePath()
+	}
+}
+
+soundManager.url = 'SoundManager2/swf';
+soundManager.flashVersion = 9
+soundManager.useFlashBlock = false
+soundManager.useHighPerformance = true
+soundManager.useFastPolling = true
+soundManager.onready(function() {
+	sound = soundManager.createSound({
+		id: 'mySound'
+		,url: 'demo.mp3'
+		,autoLoad: true
+		,autoPlay: true
+		,volume: 100
+		,useEQData: true
+		,whileplaying: function() {
+			draw()
+		}
+	})
+})
+
+addEventListener('keydown', function(e) {
+	if (e.keyCode == 27 && sound) {
+		sound.stop()
+	}
+}, true)
+
+</script>
+

@@ -1,0 +1,17 @@
+
+body {
+	background-color: black;
+	color: #666;
+}
+
+canvas {
+	border-width: 0;
+	cursor: crosshair;
+	margin: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+}
+

@@ -1,0 +1,108 @@
+<!doctype html>
+<title>soundmanager2 particles demo</title>
+<link rel="stylesheet" href="s.css"/>
+
+<canvas id="canvas" width="800" height="300"></canvas>
+
+<script src="engine.js"></script>
+
+<!--<script src="SoundManager2/script/soundmanager2.js"></script>-->
+<script src="SoundManager2/script/soundmanager2-nodebug-jsmin.js"></script>
+
+<script>
+
+var sound
+
+function genp(x, y, s)
+{
+	var e = new GO.Particle
+	e.x = x
+	e.y = y
+	e.lifetime = 1 / 5
+	e.v = 200 * s
+	e.maxsize = 5
+	e.setColorScheme({ r: 0, g: 255, b: 255 })
+	GO.scenes.main.layers.fg.push(e)
+}
+
+soundManager.url = 'SoundManager2/swf';
+soundManager.flashVersion = 9
+soundManager.useFlashBlock = false
+soundManager.useHighPerformance = true
+soundManager.useFastPolling = true
+soundManager.onready(function() {
+	sound = soundManager.createSound({
+		id: 'mySound'
+		,url: 'demo.mp3'
+		,autoLoad: true
+		,autoPlay: true
+		,volume: 100
+		,useEQData: true
+		,whileplaying: function() {
+			update()
+		}
+	})
+})
+
+addEventListener('keydown', function(e) {
+	if (e.keyCode == 27 && sound) {
+		sound.stop()
+	}
+}, true)
+
+GO.config.showFPS = true
+GO.config.fontName = 'monospace'
+
+MyScene = function()
+{
+	MyScene.superclass.call(this)
+
+	this.layers.fg = new GO.Layer
+}
+
+GO.Util.extend(MyScene, GO.Scene)
+
+MyScene.prototype.process = function()
+{
+	var w = GO.canvas.width
+		,h = GO.canvas.height
+		,x = w / 2
+		,y = h / 2
+		,v
+
+	if (!sound) {
+		return
+	}
+
+	this.clear()
+
+	MyScene.superproto.process.call(this)
+	
+	for (var i = 0; i < 256; i += 1) {
+		x = (w / 2) + i
+		y = h / 2
+		v = sound.eqData.left[i]
+		if (v > 0.1) {
+			genp(x, y, v)
+		}
+	}
+	
+	for (var i = 256; i > 0; i -= 1) {
+		x = (w / 2) - i
+		y = h / 2
+		v = sound.eqData.right[i]
+		if (v > 0.1) {
+			genp(x, y, v)
+		}
+	}
+}
+
+GO.init = function()
+{
+	GO.scenes.main = new MyScene
+	GO.setScene(GO.scenes.main)
+}
+
+GO.start()
+
+</script>
